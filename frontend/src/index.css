@@ -1,0 +1,23 @@
+.app {
+    display: flex;
+    flex-direction: column;
+    gap: 7vh;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.832);
+}
+
+*::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.345);
+    border-radius: 20px;
+  }
+
+  [contenteditable]:focus {
+    outline: none;
+}
+
+
+  

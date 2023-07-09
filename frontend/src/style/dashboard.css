@@ -1,0 +1,19 @@
+.dashboard .col {
+    height: 78vh;
+}
+
+.expenseList {
+    height: 60vh;
+}
+
+.expenseTitle {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.listItemRightPanel {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 25px;
+}
