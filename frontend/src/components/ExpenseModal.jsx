@@ -17,7 +17,7 @@ import { useExpenses } from '../hooks/useExpenses'
 import { getDate, getTime } from '../util/dateTimeUtil'
 import { categories } from '../util/constants'
 
-const AddExpense = ({ modal, onClose, isEdit, editExpense }) => {
+const ExpenseModal = ({ modal, onClose, isEdit, editExpense }) => {
 	const { dispatch } = useExpenses()
 
 	const [title, setTitle] = useState('')
@@ -197,4 +197,4 @@ const AddExpense = ({ modal, onClose, isEdit, editExpense }) => {
 	)
 }
 
-export default AddExpense
+export default ExpenseModal

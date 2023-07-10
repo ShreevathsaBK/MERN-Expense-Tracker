@@ -11,7 +11,7 @@ import {
 } from 'reactstrap'
 import { MdDelete, MdEdit } from 'react-icons/md'
 import { useState, useEffect } from 'react'
-import AddExpense from './AddExpense'
+import ExpenseModal from './ExpenseModal'
 import { useExpenses } from '../hooks/useExpenses'
 
 const pointer = {
@@ -93,12 +93,30 @@ const Expenses = () => {
 		)
 	}
 
-	const renderExpenseList = () => {
-		return showSpinner ? (
-			<Spinner className='mt-5' color='primary' />
-		) : (
-			<ListGroup>{expenses && expenses.map((expense) => renderListItem(expense))}</ListGroup>
+	const renderZeroState = () => {
+		return (
+			<ListGroup>
+				<ListGroupItem className='p-4 m-4 bg-light border border-primary'>
+					<h3>You do not have any expenses</h3>
+					<p>
+						Get started by clicking <Badge color='success'>Add Expense</Badge> or{' '}
+						<Badge color='primary'>Import</Badge> them from a csv !!
+					</p>
+				</ListGroupItem>
+			</ListGroup>
 		)
+	}
+
+	const renderExpenseList = () => {
+		if (showSpinner) {
+			return <Spinner className='mt-5' color='primary' />
+		}
+
+		if (expenses.length === 0) {
+			return renderZeroState()
+		}
+
+		return <ListGroup>{expenses.map((expense) => renderListItem(expense))}</ListGroup>
 	}
 
 	const renderButtonGroup = (toggle) => {
@@ -122,11 +140,11 @@ const Expenses = () => {
 			</Row>
 			<Row>{renderButtonGroup(toggle)}</Row>
 			{modal && (
-				<AddExpense
+				<ExpenseModal
 					modal={modal}
 					editExpense={editExpense}
 					isEdit={edit}
-					onClose={toggle}></AddExpense>
+					onClose={toggle}></ExpenseModal>
 			)}
 		</>
 	)
