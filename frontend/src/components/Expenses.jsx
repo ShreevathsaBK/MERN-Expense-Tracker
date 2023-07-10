@@ -12,6 +12,7 @@ import {
 import { MdDelete, MdEdit } from 'react-icons/md'
 import { useState, useEffect } from 'react'
 import ExpenseModal from './ExpenseModal'
+import ImportModal from './ImportModal'
 import { useExpenses } from '../hooks/useExpenses'
 
 const pointer = {
@@ -19,21 +20,26 @@ const pointer = {
 }
 
 const Expenses = () => {
-	const [modal, setModal] = useState(false)
+	const [expenseModal, setExpenseModal] = useState(false)
+	const [importModal, setImportModal] = useState(false)
 	const [edit, setEdit] = useState(false)
 	const [editExpense, setEditExpense] = useState(false)
 	const [showSpinner, setShowSpinner] = useState(false)
 	const { expenses, dispatch } = useExpenses()
 
-	const toggle = () => {
+	const toggleExpenseModal = () => {
 		setEdit(false)
-		setModal(!modal)
+		setExpenseModal(!expenseModal)
+	}
+
+	const toggleImportModal = () => {
+		setImportModal(!importModal)
 	}
 
 	const onEdit = (id) => {
 		setEdit(true)
 		setEditExpense(expenses.find((expense) => id === expense._id))
-		setModal(!modal)
+		setExpenseModal(!expenseModal)
 	}
 
 	useEffect(() => {
@@ -124,7 +130,9 @@ const Expenses = () => {
 			<>
 				<ButtonGroup className='gap-3'>
 					<Button className='bg-primary rounded'>Export </Button>
-					<Button className='bg-primary rounded'>Import </Button>
+					<Button onClick={toggleImportModal} className='bg-primary rounded'>
+						Import{' '}
+					</Button>
 					<Button onClick={toggle} className='bg-success rounded'>
 						Add Expense
 					</Button>
@@ -138,13 +146,16 @@ const Expenses = () => {
 			<Row className='expenseList justify-content-center overflow-auto'>
 				{renderExpenseList(expenses)}
 			</Row>
-			<Row>{renderButtonGroup(toggle)}</Row>
-			{modal && (
+			<Row>{renderButtonGroup(toggleExpenseModal)}</Row>
+			{expenseModal && (
 				<ExpenseModal
-					modal={modal}
+					expenseModal={expenseModal}
 					editExpense={editExpense}
 					isEdit={edit}
-					onClose={toggle}></ExpenseModal>
+					onClose={toggleExpenseModal}></ExpenseModal>
+			)}
+			{importModal && (
+				<ImportModal importModal={ImportModal} onClose={toggleImportModal}></ImportModal>
 			)}
 		</>
 	)

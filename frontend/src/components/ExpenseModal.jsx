@@ -17,7 +17,7 @@ import { useExpenses } from '../hooks/useExpenses'
 import { getDate, getTime } from '../util/dateTimeUtil'
 import { categories } from '../util/constants'
 
-const ExpenseModal = ({ modal, onClose, isEdit, editExpense }) => {
+const ExpenseModal = ({ expenseModal, onClose, isEdit, editExpense }) => {
 	const { dispatch } = useExpenses()
 
 	const [title, setTitle] = useState('')
@@ -38,10 +38,6 @@ const ExpenseModal = ({ modal, onClose, isEdit, editExpense }) => {
 			setTime(getTime(editExpense.date))
 		}
 	}, [])
-
-	const onCloseHandler = () => {
-		onClose(!modal)
-	}
 
 	const onSubmit = async () => {
 		const expenseDate = `${date} ${time}`
@@ -85,7 +81,7 @@ const ExpenseModal = ({ modal, onClose, isEdit, editExpense }) => {
 			dispatch({ type: dispatchType, payload: json })
 
 			if (isEdit) {
-				onCloseHandler()
+				onClose()
 			}
 		}
 	}
@@ -181,7 +177,7 @@ const ExpenseModal = ({ modal, onClose, isEdit, editExpense }) => {
 				<Button color='success' onClick={onSubmit}>
 					{isEdit ? 'Edit' : 'Add'}
 				</Button>{' '}
-				<Button color='secondary' onClick={onCloseHandler}>
+				<Button color='secondary' onClick={onClose}>
 					Cancel
 				</Button>
 			</>
@@ -189,8 +185,8 @@ const ExpenseModal = ({ modal, onClose, isEdit, editExpense }) => {
 	}
 
 	return (
-		<Modal isOpen={modal} toggle={onCloseHandler}>
-			<ModalHeader toggle={onCloseHandler}>Add Expense</ModalHeader>
+		<Modal isOpen={expenseModal} toggle={onClose}>
+			<ModalHeader toggle={onClose}>Add Expense</ModalHeader>
 			<ModalBody>{renderAddExpense()}</ModalBody>
 			<ModalFooter>{renderFoooter()}</ModalFooter>
 		</Modal>
