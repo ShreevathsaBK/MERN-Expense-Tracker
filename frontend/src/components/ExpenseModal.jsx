@@ -15,7 +15,7 @@ import {
 import { useState, useEffect } from 'react'
 import { useExpenses } from '../hooks/useExpenses'
 import { getDate, getTime } from '../util/dateTimeUtil'
-import { categories } from '../util/constants'
+import { CATEGORIES } from '../util/constants'
 
 const ExpenseModal = ({ expenseModal, onClose, isEdit, editExpense }) => {
 	const { dispatch } = useExpenses()
@@ -131,7 +131,7 @@ const ExpenseModal = ({ expenseModal, onClose, isEdit, editExpense }) => {
 								id='expenseCategory'
 								type='select'
 								onChange={(e) => setCategory(e.target.value)}>
-								{categories.map((category, idx) => (
+								{CATEGORIES.map((category, idx) => (
 									<option key={idx}>{category}</option>
 								))}
 							</Input>

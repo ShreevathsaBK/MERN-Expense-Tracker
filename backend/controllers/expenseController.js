@@ -26,11 +26,17 @@ const getExpense = async (req, res) => {
 
 // POST new expense
 const createExpense = async (req, res) => {
-	const { title, description, category, amount, date } = req.body
+	const { multiple } = req.query
 
 	try {
-		const expense = await Expense.create({ title, description, category, amount, date })
-		res.status(200).json(expense)
+		if (multiple === 'true' && Array.isArray(req.body)) {
+			const expenses = await Expense.create(req.body)
+			res.status(200).json(expenses)
+		} else {
+			const { title, description, category, amount, date } = req.body
+			const expense = await Expense.create({ title, description, category, amount, date })
+			res.status(200).json(expense)
+		}
 	} catch (err) {
 		res.status(400).json(err.message)
 	}

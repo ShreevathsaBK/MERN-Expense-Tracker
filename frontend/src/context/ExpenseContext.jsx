@@ -12,6 +12,10 @@ const expensesReducer = (state, action) => {
 			return {
 				expenses: [action.payload, ...state.expenses],
 			}
+		case 'CREATE_EXPENSES':
+			return {
+				expenses: [...action.payload, ...state.expenses],
+			}
 		case 'UPDATE_EXPENSE':
 			return {
 				expenses: state.expenses.map((e) =>
