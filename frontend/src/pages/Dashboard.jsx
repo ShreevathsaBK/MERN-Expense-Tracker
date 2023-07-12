@@ -12,7 +12,7 @@ const Dashboard = () => {
 					<Col className='col-4 p-4 d-flex flex-column justify-content-between bg-white rounded shadow-lg'>
 						<Expenses expenses />
 					</Col>
-					<Col className='col-7 p-4 bg-white rounded shadow-lg'>Graphs</Col>
+					<Col className='gap-5 d-flex flex-column col-7 p-4 bg-white rounded shadow-lg'></Col>
 				</Row>
 			</Container>
 		</div>

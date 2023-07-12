@@ -11,9 +11,10 @@ import {
 } from 'reactstrap'
 import Papa from 'papaparse'
 import { TEMPLATE_HEADERS } from '../util/constants'
+import { compareArrays } from '../util/arrayUtil'
+import { transformCSV, downloadCSV, validateValues } from '../util/importUtil'
 import { useExpenses } from '../hooks/useExpenses'
 import { useState } from 'react'
-import { compareArrays } from '../util/arrayUtil'
 
 const ImportModal = ({ importModal, onClose }) => {
 	const { dispatch } = useExpenses()
@@ -66,14 +67,10 @@ const ImportModal = ({ importModal, onClose }) => {
 			return
 		}
 
-		expenses.forEach((expense) => {
-			TEMPLATE_HEADERS.forEach((header) => {
-				if (expense[header] === '') {
-					alertMessage('Please enter all the fields in csv')
-					return
-				}
-			})
-		})
+		if (!validateValues(expenses)) {
+			alertMessage('Enter all the fields or give valid values in csv')
+			return
+		}
 
 		setColor('success')
 		alertMessage('File Upload successful')
@@ -88,26 +85,13 @@ const ImportModal = ({ importModal, onClose }) => {
 
 		Papa.parse(file, {
 			header: true,
-			skipEmptyLines: true,
+			skipEmptyLines: 'greedy',
+			transform: transformCSV,
 			complete: (fileData) => {
-				console.log(fileData)
 				setFileData(fileData)
 				validateCSV(fileData)
 			},
 		})
-	}
-
-	const downloadCSV = (e) => {
-		e.preventDefault()
-
-		const csv = Papa.unparse({
-			fields: TEMPLATE_HEADERS,
-		})
-		const hiddenAnchor = document.createElement('a')
-
-		hiddenAnchor.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv)
-		hiddenAnchor.download = 'Expenses.csv'
-		hiddenAnchor.click()
 	}
 
 	const renderImportBody = () => {
