@@ -28,6 +28,13 @@ const ImportModal = ({ importModal, onClose }) => {
 		setMessage(msg)
 	}
 
+	const resetDefault = () => {
+		setAlert(false)
+		setMessage('')
+		setColor('danger')
+		setFileData({})
+	}
+
 	const importExpense = async () => {
 		if (color === 'success') {
 			const expenses = fileData.data
@@ -50,6 +57,8 @@ const ImportModal = ({ importModal, onClose }) => {
 				dispatch({ type: 'CREATE_EXPENSES', payload: json })
 				onClose()
 			}
+		} else {
+			alertMessage('No file uploaded')
 		}
 	}
 
@@ -77,9 +86,7 @@ const ImportModal = ({ importModal, onClose }) => {
 	}
 
 	const onUpload = (e) => {
-		setColor('danger')
-		setAlert(false)
-		setMessage('')
+		resetDefault()
 
 		const file = e.target.files[0]
 
