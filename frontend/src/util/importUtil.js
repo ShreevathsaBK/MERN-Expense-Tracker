@@ -1,9 +1,11 @@
 import { TEMPLATE_HEADERS } from './constants'
+import Papa from 'papaparse'
+import { parseDate } from './dateTimeUtil'
 
 export const transformCSV = (value, header) => {
 	switch (header) {
 		case 'date':
-			return new Date(value)
+			return parseDate(value)
 		case 'amount':
 			return Number.parseInt(value)
 		default:
@@ -30,10 +32,6 @@ export const validateValues = (expenses) => {
 			let value = expense[header]
 
 			if (!value) return false
-
-			if (header == 'date' && value.toDateString() === 'Invalid Date') {
-				return false
-			}
 		}
 	}
 

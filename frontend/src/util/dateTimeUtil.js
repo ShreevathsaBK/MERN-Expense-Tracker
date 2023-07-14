@@ -1,17 +1,35 @@
+import { DateTime } from 'luxon'
+
+export const getCurrMonth = () => new Date().getMonth()
+
+export const getCurrYear = () => new Date().getFullYear()
+
+export const daysInMonth = (year, month) => new Date(year, month, 0).getDate()
+
 export const getDate = (date = null) => {
-	if (date) {
-		return new Date(date).toISOString().split('T')[0]
-	}
-	return new Date().toISOString().split('T')[0]
+	const dateTime = date ? DateTime.fromISO(date) : DateTime.local()
+	return dateTime.toISODate()
 }
 
 export const getTime = (date = null) => {
-	if (date) {
-		return new Date(date).toLocaleTimeString([], {
-			hour: '2-digit',
-			minute: '2-digit',
-			hour12: false,
-		})
+	const dateTime = date ? DateTime.fromISO(date) : DateTime.local()
+	return dateTime.toFormat('HH:mm')
+}
+
+export const parseDate = (date) => {
+	const formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'dd MM yyyy']
+
+	let parsedDate
+
+	for (const format of formats) {
+		parsedDate = DateTime.fromFormat(date, format)
+
+		if (parsedDate.isValid) {
+			break
+		}
 	}
-	return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+
+	return parsedDate.isValid
+		? DateTime.fromISO(`${parsedDate.toISODate()}T${getTime()}`).toISO()
+		: null
 }

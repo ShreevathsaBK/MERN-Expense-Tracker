@@ -16,3 +16,5 @@ export const MONTHS = [
 	'Nov',
 	'Dec',
 ]
+
+export const NO_OF_YEARS = 5

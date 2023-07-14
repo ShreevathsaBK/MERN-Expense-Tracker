@@ -12,6 +12,7 @@ import {
 	Col,
 	Alert,
 } from 'reactstrap'
+import { DateTime } from 'luxon'
 import { useState, useEffect } from 'react'
 import { useExpenses } from '../hooks/useExpenses'
 import { getDate, getTime } from '../util/dateTimeUtil'
@@ -40,7 +41,7 @@ const ExpenseModal = ({ expenseModal, onClose, isEdit, editExpense }) => {
 	}, [])
 
 	const onSubmit = async () => {
-		const expenseDate = `${date} ${time}`
+		const expenseDate = DateTime.fromISO(`${date}T${time}`).toISO()
 		const expenseAmount = Number.parseInt(amount)
 
 		if (!title || !description || !expenseAmount) {

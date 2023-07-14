@@ -117,6 +117,7 @@ const ImportModal = ({ importModal, onClose }) => {
 						type='file'
 						accept='.csv'
 						onChange={onUpload}
+						onClick={(e) => (e.target.value = '')}
 						className='border border-secondary mx-auto'
 						style={{ width: '95%' }}
 					/>
