@@ -12,7 +12,7 @@ const Dashboard = () => {
 					<Col className='col-4 p-4 d-flex flex-column justify-content-between bg-white rounded shadow-lg'>
 						<Expenses expenses />
 					</Col>
-					<Col className='col-7 p-4 d-flex flex-column justify-content-between bg-white rounded shadow-lg'>
+					<Col className='col-7 p-4 d-flex flex-column justify-content-between flex-shrink-2 bg-white rounded shadow-lg'>
 						<Graphs />
 					</Col>
 				</Row>

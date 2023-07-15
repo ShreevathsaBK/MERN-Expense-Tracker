@@ -10,3 +10,12 @@ export const calculateDayTotals = (expenses, day, month, year) => {
 		})
 		.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0)
 }
+
+export const calculateCategoryTotals = (expenses, category, month, year) => {
+	return expenses
+		.filter((expense) => {
+			const { month: expMonth, year: expYear } = DateTime.fromISO(expense.date)
+			return month + 1 === expMonth && year === expYear && expense.category === category
+		})
+		.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0)
+}

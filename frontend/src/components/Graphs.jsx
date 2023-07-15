@@ -5,13 +5,14 @@ import {
 	Nav,
 	NavItem,
 	NavLink,
+	Button,
 	Dropdown,
 	DropdownToggle,
 	DropdownMenu,
 	DropdownItem,
 } from 'reactstrap'
 
-import { Line } from 'react-chartjs-2'
+import { Line, Doughnut } from 'react-chartjs-2'
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -21,19 +22,38 @@ import {
 	Title,
 	Tooltip,
 	Legend,
+	ArcElement,
 } from 'chart.js'
 
-import { MONTHS, NO_OF_YEARS } from '../util/constants'
-import { calculateDayTotals } from '../util/graphUtils'
+import {
+	MONTHS,
+	NO_OF_YEARS,
+	PIE_CHART,
+	PIE_COLORS,
+	LINE_CHART,
+	CATEGORIES,
+} from '../util/constants'
+import { calculateDayTotals, calculateCategoryTotals } from '../util/graphUtils'
 import { getCurrMonth, getCurrYear, daysInMonth } from '../util/dateTimeUtil'
 import '../style/graph.css'
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
+ChartJS.register(
+	CategoryScale,
+	LinearScale,
+	PointElement,
+	LineElement,
+	Title,
+	Tooltip,
+	Legend,
+	ArcElement
+)
 
 const Graphs = () => {
+	const { expenses } = useExpenses()
 	const [dropdownOpen, setDropdownOpen] = useState(false)
 	const [activeMonth, setActiveMonth] = useState(getCurrMonth())
 	const [activeYear, setActiveYear] = useState(getCurrYear())
+	const [chart, setChart] = useState('Pie Chart')
 
 	const toggle = () => setDropdownOpen((prevState) => !prevState)
 
@@ -42,7 +62,6 @@ const Graphs = () => {
 	}
 
 	const renderLineChart = () => {
-		const { expenses } = useExpenses()
 		const currYear = getCurrYear()
 		const days = [...Array(daysInMonth(currYear, activeMonth)).keys()].slice(1)
 		const options = {
@@ -64,6 +83,31 @@ const Graphs = () => {
 		}
 
 		return <Line options={options} data={data} />
+	}
+
+	const renderPieChart = () => {
+		const options = {
+			plugins: { legend: { display: true, position: 'left' } },
+			maintainAspectRatio: false,
+		}
+
+		const data = {
+			labels: CATEGORIES,
+			datasets: [
+				{
+					data: CATEGORIES.map((category) =>
+						calculateCategoryTotals(expenses, category, activeMonth, activeYear)
+					),
+					backgroundColor: PIE_COLORS,
+				},
+			],
+		}
+
+		return (
+			<div style={{ height: '70%', width: '80%', margin: 'auto' }}>
+				<Doughnut data={data} options={options} />
+			</div>
+		)
 	}
 
 	const renderDropdown = () => {
@@ -106,10 +150,23 @@ const Graphs = () => {
 		)
 	}
 
+	const renderViewSwtich = () => {
+		const toggleChart = () => {
+			chart === PIE_CHART ? setChart(LINE_CHART) : setChart(PIE_CHART)
+		}
+
+		return (
+			<Button onClick={() => toggleChart()} color='success' style={{ width: '15%' }}>
+				{chart}
+			</Button>
+		)
+	}
+
 	return (
 		<>
 			{renderNav()}
-			{renderLineChart()}
+			{chart === PIE_CHART ? renderLineChart() : renderPieChart()}
+			{renderViewSwtich()}
 		</>
 	)
 }
