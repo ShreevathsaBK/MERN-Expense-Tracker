@@ -1,8 +1,18 @@
 const express = require('express')
+const requireAuth = require('../middleware/requireAuth')
 
-const { createExpense, getExpenses, getExpense, deleteExpense, updateExpense } = require('../controllers/expenseController')
+const {
+	createExpense,
+	getExpenses,
+	getExpense,
+	deleteExpense,
+	updateExpense,
+} = require('../controllers/expenseController')
 
 const router = express.Router()
+
+// middleware auth
+router.use(requireAuth)
 
 router.get('/', getExpenses)
 

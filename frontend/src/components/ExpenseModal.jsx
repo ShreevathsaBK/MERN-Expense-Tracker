@@ -15,11 +15,13 @@ import {
 import { DateTime } from 'luxon'
 import { useState, useEffect } from 'react'
 import { useExpenses } from '../hooks/useExpenses'
+import { useAuth } from '../hooks/useAuth'
 import { getDate, getTime } from '../util/dateTimeUtil'
 import { CATEGORIES } from '../util/constants'
 
 const ExpenseModal = ({ expenseModal, onClose, isEdit, editExpense }) => {
 	const { dispatch } = useExpenses()
+	const { user } = useAuth()
 
 	const [title, setTitle] = useState('')
 	const [description, setDescription] = useState('')
@@ -41,6 +43,8 @@ const ExpenseModal = ({ expenseModal, onClose, isEdit, editExpense }) => {
 	}, [])
 
 	const onSubmit = async () => {
+		if (!user) return
+
 		const expenseDate = DateTime.fromISO(`${date}T${time}`).toISO()
 		const expenseAmount = Number.parseInt(amount)
 
@@ -60,6 +64,7 @@ const ExpenseModal = ({ expenseModal, onClose, isEdit, editExpense }) => {
 			body: JSON.stringify(expense),
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: `Bearer ${user.token}`,
 			},
 		})
 
@@ -187,7 +192,7 @@ const ExpenseModal = ({ expenseModal, onClose, isEdit, editExpense }) => {
 
 	return (
 		<Modal isOpen={expenseModal} toggle={onClose}>
-			<ModalHeader toggle={onClose}>Add Expense</ModalHeader>
+			<ModalHeader toggle={onClose}>{isEdit ? 'Edit' : 'Add'} Expense</ModalHeader>
 			<ModalBody>{renderAddExpense()}</ModalBody>
 			<ModalFooter>{renderFoooter()}</ModalFooter>
 		</Modal>

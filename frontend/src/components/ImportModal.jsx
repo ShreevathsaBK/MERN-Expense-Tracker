@@ -14,10 +14,13 @@ import { TEMPLATE_HEADERS } from '../util/constants'
 import { compareArrays } from '../util/arrayUtil'
 import { transformCSV, downloadCSV, validateValues } from '../util/importUtil'
 import { useExpenses } from '../hooks/useExpenses'
+import { useAuth } from '../hooks/useAuth'
 import { useState } from 'react'
 
 const ImportModal = ({ importModal, onClose }) => {
 	const { dispatch } = useExpenses()
+	const { user } = useAuth()
+
 	const [alert, setAlert] = useState(false)
 	const [message, setMessage] = useState('')
 	const [color, setColor] = useState('danger')
@@ -36,6 +39,7 @@ const ImportModal = ({ importModal, onClose }) => {
 	}
 
 	const importExpense = async () => {
+		if (!user) return
 		if (color === 'success') {
 			const expenses = fileData.data
 
@@ -44,6 +48,7 @@ const ImportModal = ({ importModal, onClose }) => {
 				body: JSON.stringify(expenses),
 				headers: {
 					'Content-Type': 'application/json',
+					Authorization: `Bearer ${user.token}`,
 				},
 			})
 

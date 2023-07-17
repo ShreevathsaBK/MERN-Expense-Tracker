@@ -67,6 +67,11 @@ const Graphs = () => {
 		const options = {
 			responsive: true,
 			plugins: { legend: { display: false } },
+			scales: {
+				y: {
+					suggestedMax: 500,
+				},
+			},
 		}
 
 		const data = {
@@ -78,6 +83,7 @@ const Graphs = () => {
 					),
 					borderColor: 'rgb(255, 99, 132)',
 					backgroundColor: 'rgba(255, 99, 132, 0.5)',
+					tension: 0.5,
 				},
 			],
 		}

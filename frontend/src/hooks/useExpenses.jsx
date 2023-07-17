@@ -7,5 +7,6 @@ export const useExpenses = () => {
 	if (!context) {
 		throw Error('useExpenses must be used inside an ExpenseContextProvider')
 	}
+
 	return context
 }

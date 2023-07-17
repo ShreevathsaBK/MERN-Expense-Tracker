@@ -2,11 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import { ExpensesContextProvider } from './context/ExpenseContext.jsx'
+import { AuthContextProvider } from './context/AuthContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
-		<ExpensesContextProvider>
-			<App />
-		</ExpensesContextProvider>
+		<AuthContextProvider>
+			<ExpensesContextProvider>
+				<App />
+			</ExpensesContextProvider>
+		</AuthContextProvider>
 	</React.StrictMode>
 )

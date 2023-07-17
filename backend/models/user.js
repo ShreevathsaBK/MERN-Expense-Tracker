@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const validator = require('validator')
 
 const Schema = mongoose.Schema
 
@@ -17,6 +18,18 @@ const userSchema = new Schema({
 
 // static signup method
 userSchema.statics.signup = async function (email, password) {
+	if (!email || !password) {
+		throw Error('All fields must be filled')
+	}
+
+	if (!validator.isEmail(email)) {
+		throw Error('Invalid mail id')
+	}
+
+	if (!validator.isStrongPassword(password)) {
+		throw Error('password is weak')
+	}
+
 	const exists = await this.findOne({ email })
 
 	if (exists) {
@@ -33,10 +46,14 @@ userSchema.statics.signup = async function (email, password) {
 
 // static login method
 userSchema.statics.login = async function (email, password) {
+	if (!email || !password) {
+		throw Error('All fields must be filled')
+	}
+
 	const user = await this.findOne({ email })
 
 	if (!user) {
-		throw Error('Invalid email')
+		throw Error('email does not exist')
 	}
 
 	const match = await bcrypt.compare(password, user.password)

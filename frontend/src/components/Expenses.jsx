@@ -14,18 +14,21 @@ import { useState, useEffect } from 'react'
 import ExpenseModal from './ExpenseModal'
 import ImportModal from './ImportModal'
 import { useExpenses } from '../hooks/useExpenses'
+import { useAuth } from '../hooks/useAuth'
 
 const pointer = {
 	cursor: 'pointer',
 }
 
 const Expenses = () => {
+	const { expenses, dispatch } = useExpenses()
+	const { user } = useAuth()
+
 	const [expenseModal, setExpenseModal] = useState(false)
 	const [importModal, setImportModal] = useState(false)
 	const [edit, setEdit] = useState(false)
 	const [editExpense, setEditExpense] = useState(false)
 	const [showSpinner, setShowSpinner] = useState(false)
-	const { expenses, dispatch } = useExpenses()
 
 	const toggleExpenseModal = () => {
 		setEdit(false)
@@ -45,7 +48,12 @@ const Expenses = () => {
 	useEffect(() => {
 		setShowSpinner(true)
 		const fetchExpenses = async () => {
-			const response = await fetch('/app/expenses')
+			const response = await fetch('/app/expenses', {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${user.token}`,
+				},
+			})
 			const json = await response.json()
 
 			if (response.ok) {
@@ -54,12 +62,17 @@ const Expenses = () => {
 			setShowSpinner(false)
 		}
 
-		fetchExpenses()
-	}, [])
+		if (user) fetchExpenses()
+	}, [dispatch, user])
 
 	const onDelete = async (id) => {
+		if (!user) return
 		const response = await fetch(`/app/expenses/${id}`, {
 			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${user.token}`,
+			},
 		})
 
 		const json = await response.json()
@@ -71,7 +84,7 @@ const Expenses = () => {
 
 	const renderListItem = (expense) => {
 		return (
-			<ListGroupItem key={expense._id}>
+			<ListGroupItem className='bg-light border-0' key={expense._id}>
 				<ListGroupItemHeading className='my-2 d-flex justify-content-between' tag={'div'}>
 					<div className='expenseTitle text-success'>{expense.title}</div>
 					<div className='listItemRightPanel'>
