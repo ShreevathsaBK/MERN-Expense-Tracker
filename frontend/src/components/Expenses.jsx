@@ -84,7 +84,7 @@ const Expenses = () => {
 
 	const renderListItem = (expense) => {
 		return (
-			<ListGroupItem className='bg-light border-0' key={expense._id}>
+			<ListGroupItem className='bg-light border rounded m-2' key={expense._id}>
 				<ListGroupItemHeading className='my-2 d-flex justify-content-between' tag={'div'}>
 					<div className='expenseTitle text-success'>{expense.title}</div>
 					<div className='listItemRightPanel'>

@@ -7,10 +7,12 @@ const AppNavBar = () => {
 	const { user } = useAuth()
 
 	return (
-		<div className='appNavBar bg-white'>
-			<Nav className='py-2 shadow-sm bg-light justify-content-between'>
+		<div className='appNavBar'>
+			<Nav className='py-2 px-4 shadow-sm bg-white justify-content-between'>
 				<NavItem>
-					<NavLink href='/'>Expenses</NavLink>
+					<NavLink style={{ fontSize: '25px' }} href='/'>
+						<strong>Expenses</strong>
+					</NavLink>
 				</NavItem>
 				{!user && (
 					<div className='d-flex'>
@@ -24,7 +26,7 @@ const AppNavBar = () => {
 				)}
 
 				{user && (
-					<div className='d-flex gap-2 mx-2'>
+					<div className='d-flex gap-2 mx-2 align-items-center'>
 						<NavItem className='my-auto'>{user.email}</NavItem>
 						<NavItem>
 							<Button onClick={logout}>Logout</Button>

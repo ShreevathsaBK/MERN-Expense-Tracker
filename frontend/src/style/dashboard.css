@@ -6,6 +6,10 @@
     height: 60vh;
 }
 
+.expenseList .list-group {
+    padding: 0;
+}
+
 .expenseTitle {
     font-size: 25px;
     font-weight: bold;

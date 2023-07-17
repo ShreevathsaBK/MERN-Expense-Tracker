@@ -3,7 +3,7 @@
     flex-direction: column;
     gap: 7vh;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.832);
+    background: rgba(234, 234, 234, 0.832);
 }
 
 *::-webkit-scrollbar {

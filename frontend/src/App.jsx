@@ -14,13 +14,11 @@ function App() {
 		<div className='app'>
 			<AppNavBar />
 			<BrowserRouter>
-				<div className='pages'>
-					<Routes>
-						<Route path='/' element={user ? <Dashboard /> : <Navigate to='/login' />} />
-						<Route path='/signup' element={!user ? <SignUp /> : <Navigate to='/' />} />
-						<Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
-					</Routes>
-				</div>
+				<Routes>
+					<Route path='/' element={user ? <Dashboard /> : <Navigate to='/login' />} />
+					<Route path='/signup' element={!user ? <SignUp /> : <Navigate to='/' />} />
+					<Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
+				</Routes>
 			</BrowserRouter>
 		</div>
 	)

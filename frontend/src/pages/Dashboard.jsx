@@ -9,10 +9,10 @@ const Dashboard = () => {
 		<div className='dashboard'>
 			<Container className='mx-auto' fluid>
 				<Row className='justify-content-around'>
-					<Col className='col-4 p-4 d-flex flex-column justify-content-between bg-light rounded shadow'>
+					<Col className='col-4 p-4 d-flex flex-column justify-content-between bg-white rounded shadow'>
 						<Expenses expenses />
 					</Col>
-					<Col className='col-7 p-4 d-flex flex-column justify-content-between flex-shrink-2 bg-light rounded shadow'>
+					<Col className='col-7 p-4 d-flex flex-column justify-content-between bg-white flex-shrink-2 rounded shadow'>
 						<Graphs />
 					</Col>
 				</Row>
