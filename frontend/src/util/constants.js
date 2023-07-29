@@ -23,4 +23,4 @@ export const PIE_CHART = 'Pie Chart'
 
 export const PIE_COLORS = ['#42b883', '#347474', '#35495e', '#ff7e67', '#c7b198']
 
-export const LINE_CHART = 'Line Chart'
+export const LINE_CHART = 'Bar Chart'

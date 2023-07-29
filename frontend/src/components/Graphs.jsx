@@ -12,13 +12,13 @@ import {
 	DropdownItem,
 } from 'reactstrap'
 
-import { Line, Doughnut } from 'react-chartjs-2'
+import { Bar, Doughnut } from 'react-chartjs-2'
 import {
 	Chart as ChartJS,
 	CategoryScale,
 	LinearScale,
 	PointElement,
-	LineElement,
+	BarElement,
 	Title,
 	Tooltip,
 	Legend,
@@ -41,7 +41,7 @@ ChartJS.register(
 	CategoryScale,
 	LinearScale,
 	PointElement,
-	LineElement,
+	BarElement,
 	Title,
 	Tooltip,
 	Legend,
@@ -61,7 +61,7 @@ const Graphs = () => {
 		setActiveMonth(monthIdx)
 	}
 
-	const renderLineChart = () => {
+	const renderBarChart = () => {
 		const currYear = getCurrYear()
 		const days = [...Array(daysInMonth(currYear, activeMonth)).keys()].slice(1)
 		const options = {
@@ -69,7 +69,8 @@ const Graphs = () => {
 			plugins: { legend: { display: false } },
 			scales: {
 				y: {
-					suggestedMax: 500,
+					suggestedMax: 5000,
+					grace: 10,
 				},
 			},
 		}
@@ -81,14 +82,13 @@ const Graphs = () => {
 					data: days.map((day) =>
 						calculateDayTotals(expenses, day, activeMonth, activeYear)
 					),
-					borderColor: 'rgb(255, 99, 132)',
-					backgroundColor: 'rgba(255, 99, 132, 0.5)',
+					backgroundColor: '#347474',
 					tension: 0.5,
 				},
 			],
 		}
 
-		return <Line options={options} data={data} />
+		return <Bar options={options} data={data} />
 	}
 
 	const renderPieChart = () => {
@@ -171,7 +171,7 @@ const Graphs = () => {
 	return (
 		<>
 			{renderNav()}
-			{chart === PIE_CHART ? renderLineChart() : renderPieChart()}
+			{chart === PIE_CHART ? renderBarChart() : renderPieChart()}
 			{renderViewSwtich()}
 		</>
 	)
