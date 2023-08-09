@@ -12,7 +12,7 @@ import {
 import Papa from 'papaparse'
 import { TEMPLATE_HEADERS } from '../util/constants'
 import { compareArrays } from '../util/arrayUtil'
-import { transformCSV, downloadCSV, validateValues } from '../util/importUtil'
+import { transformCSV, download, validateValues } from '../util/importUtil'
 import { useExpenses } from '../hooks/useExpenses'
 import { useAuth } from '../hooks/useAuth'
 import { useState } from 'react'
@@ -111,7 +111,7 @@ const ImportModal = ({ importModal, onClose }) => {
 			<FormGroup className='mx-3 d-flex flex-column gap-4'>
 				<Row>
 					<h6>Downlaod the Template</h6>
-					<a onClick={downloadCSV} href=''>
+					<a onClick={download} href=''>
 						Expenses.csv
 					</a>
 				</Row>

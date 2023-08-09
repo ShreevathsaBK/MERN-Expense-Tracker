@@ -13,17 +13,22 @@ export const transformCSV = (value, header) => {
 	}
 }
 
-export const downloadCSV = (e) => {
-	e.preventDefault()
-
-	const csv = Papa.unparse({
-		fields: TEMPLATE_HEADERS,
-	})
+export const downloadCSV = (csv) => {
 	const hiddenAnchor = document.createElement('a')
 
 	hiddenAnchor.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv)
 	hiddenAnchor.download = 'Expenses.csv'
 	hiddenAnchor.click()
+}
+
+export const download = (e) => {
+	e.preventDefault()
+
+	const csv = Papa.unparse({
+		fields: TEMPLATE_HEADERS,
+	})
+
+	downloadCSV(csv)
 }
 
 export const validateValues = (expenses) => {

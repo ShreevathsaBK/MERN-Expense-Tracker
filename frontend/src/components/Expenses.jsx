@@ -13,6 +13,7 @@ import { MdDelete, MdEdit } from 'react-icons/md'
 import { useState, useEffect } from 'react'
 import ExpenseModal from './ExpenseModal'
 import ImportModal from './ImportModal'
+import ExportModal from './ExportModal'
 import { useExpenses } from '../hooks/useExpenses'
 import { useAuth } from '../hooks/useAuth'
 
@@ -26,6 +27,7 @@ const Expenses = () => {
 
 	const [expenseModal, setExpenseModal] = useState(false)
 	const [importModal, setImportModal] = useState(false)
+	const [exportModal, setExportModal] = useState(false)
 	const [edit, setEdit] = useState(false)
 	const [editExpense, setEditExpense] = useState(false)
 	const [showSpinner, setShowSpinner] = useState(false)
@@ -37,6 +39,10 @@ const Expenses = () => {
 
 	const toggleImportModal = () => {
 		setImportModal(!importModal)
+	}
+
+	const toggleExportModal = () => {
+		setExportModal(!exportModal)
 	}
 
 	const onEdit = (id) => {
@@ -142,7 +148,9 @@ const Expenses = () => {
 		return (
 			<>
 				<ButtonGroup className='gap-3'>
-					<Button className='bg-primary rounded'>Export </Button>
+					<Button onClick={toggleExportModal} className='bg-primary rounded'>
+						Export{' '}
+					</Button>
 					<Button onClick={toggleImportModal} className='bg-primary rounded'>
 						Import{' '}
 					</Button>
@@ -169,6 +177,9 @@ const Expenses = () => {
 			)}
 			{importModal && (
 				<ImportModal importModal={ImportModal} onClose={toggleImportModal}></ImportModal>
+			)}
+			{exportModal && (
+				<ExportModal exportModal={exportModal} onClose={toggleExportModal}></ExportModal>
 			)}
 		</>
 	)
